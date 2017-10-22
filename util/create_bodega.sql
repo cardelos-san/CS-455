@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS bodega;
+CREATE DATABASE bodega COLLATE=utf8_unicode_ci;
