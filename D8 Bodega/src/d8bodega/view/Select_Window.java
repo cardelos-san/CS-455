@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -62,9 +63,18 @@ public class Select_Window extends JFrame {
 		btnViewInventory.setBounds(141, 116, 144, 29);
 		contentPane.add(btnViewInventory);
 		
-		JButton btnEditInvertory = new JButton("EDIT INVERTORY");
-		btnEditInvertory.setBounds(141, 157, 144, 29);
-		contentPane.add(btnEditInvertory);
+		JButton btnEditInventory = new JButton("EDIT INVENTORY");
+		btnEditInventory.addActionListener(new ActionListener (){
+		  public void actionPerformed(ActionEvent e){
+			  Edit_Window edit = new Edit_Window();
+				edit.start();
+				dispose();
+		  }
+		  
+			});
+
+		btnEditInventory.setBounds(141, 157, 144, 29);
+		contentPane.add(btnEditInventory);
 	}
 
 }
