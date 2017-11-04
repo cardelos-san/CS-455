@@ -17,18 +17,16 @@ public class Select_Window extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
+	
 
-			public void run() {
-				try {
-					Select_Window frame = new Select_Window();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+	public void run() {
+		try {
+			Inventory_Window frame = new Inventory_Window();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 
 
@@ -36,6 +34,7 @@ public class Select_Window extends JFrame {
 	 * Create the frame.
 	 */
 	public Select_Window() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -52,19 +51,35 @@ public class Select_Window extends JFrame {
 		contentPane.add(txtpnHello);
 		
 		JButton btnViewInventory = new JButton("VIEW INVENTORY");
-		btnViewInventory.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnViewInventory.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				
 				Inventory_Window view = new Inventory_Window();
 				view.run();
 				dispose();
 			}
 		});
-		btnViewInventory.setBounds(141, 116, 144, 29);
-		contentPane.add(btnViewInventory);
 		
-		JButton btnEditInvertory = new JButton("EDIT INVERTORY");
-		btnEditInvertory.setBounds(141, 157, 144, 29);
-		contentPane.add(btnEditInvertory);
+		btnViewInventory.setBounds(141, 116, 144, 29);
+		
+		contentPane.add(btnViewInventory);
+	
+		
+		JButton btnEditInventory = new JButton("EDIT INVERTORY");
+		btnEditInventory.addActionListener(new ActionListener (){
+  public void actionPerformed(ActionEvent e)
+  {
+	  Edit_Window edit = new Edit_Window();
+		edit.start();
+		dispose();
+  }
+  
+	});
+
+		btnEditInventory.setBounds(141, 157, 144, 29);
+		contentPane.add(btnEditInventory);
 	}
 
 }
