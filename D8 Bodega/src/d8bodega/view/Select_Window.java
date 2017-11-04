@@ -1,4 +1,4 @@
-package views;
+package d8bodega.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
