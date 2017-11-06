@@ -22,7 +22,7 @@ public class Stock {
 		String result;
 		result = "stockID: " + this.stockID + " Stock Name: " + this.stockName + " Number Available: " + this.noAvailable +
 				" Number Preferred: " + this.noPreferred + " Number Missing: " + this.noMissing + " Last updated: " +
-				 this.lastUpdate;
+				 this.lastUpdate + "\n";
 		return result;
 	}
 }
