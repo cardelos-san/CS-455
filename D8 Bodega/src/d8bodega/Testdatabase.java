@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Testdatabase {
 	
-	public static void main(String[]arg) throws Exception{
+	public static void main(String[]arg) throws Exception {
 		Scanner scan = new Scanner(System.in);
 		String username;
 		String password; 
@@ -20,14 +20,14 @@ public class Testdatabase {
 		String testStock = "";
 		String testItemList = "";
 		String testStockList = "";
-		try{
+		try {
 			testItem = db.getItem(1).toString();
 			testStock = db.getStock(1).toString();
 			testItemList = db.getAllItems().toString();
 			testStockList = db.getAllStock().toString();	
 			db.close();
 		} 
-		catch (Exception e){
+		catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
