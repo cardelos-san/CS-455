@@ -1,7 +1,6 @@
 package d8bodega.model;
 
 public class Item {
-	
 	private int itemID;
 	private String itemName;
 	private float price;
@@ -13,13 +12,8 @@ public class Item {
 	}
 	
 	public String toString(){
-		
 		String result;
-		
-		result = "ItemID= " + this.itemID + " ItemName: " + this.itemName + " Price: " + this.price;
-		
+		result = "ItemID: " + this.itemID + " ItemName: " + this.itemName + " Price: " + this.price;
 		return result;
-		
 	}
-
 }

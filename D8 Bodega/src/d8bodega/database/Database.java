@@ -54,8 +54,44 @@ public class Database{
             rset = stmt.executeQuery();
 
             if (rset.next()){
-                
             	itemName = rset.getString( "itemName" );
+                price = rset.getFloat("price" );
+                item = new Item( itemID, itemName, price );
+            }
+
+        } catch ( Exception e ) {
+        	System.out.println( "Error getting item from database: " + e.getMessage());
+        	throw e;
+        } finally {
+        	stmt.close();
+        }
+        
+        return item;
+    }
+    
+    public Item getStock(int stockID) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null; // result - gets returned
+    	String sql, stockName;
+    	java.sql.Date lastUpdate;
+    	int noAvailable, noPreferred, noMissing;
+        
+        // Return if the database is closed.
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed!" );
+        
+        try {
+            // Create a PreparedStatement for the update.
+            sql = "SELECT * FROM stock WHERE stockID = ? LIMIT 1";
+            stmt = dbConnection.prepareStatement( sql );
+
+            // Set the parameters in the statement
+            stmt.setInt( 1, stockID );
+
+            // Execute SQL Update
+            rset = stmt.executeQuery();
+
+            if (rset.next()){
+                noAvailable = rset.getInt( "noAvailable" );
                 price = rset.getFloat("price" );
                 item = new Item( itemID, itemName, price );
             }
