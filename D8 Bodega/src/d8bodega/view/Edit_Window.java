@@ -53,8 +53,15 @@ public class Edit_Window extends JFrame {
 		JButton btnGoBack = new JButton("GO BACK ");
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Select_Window goback = new Select_Window();
-				goback.run();
+				Select_Window goback;
+				try {
+					goback = new Select_Window();
+					goback.run();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				dispose();
 			}
 		});

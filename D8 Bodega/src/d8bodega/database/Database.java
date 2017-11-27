@@ -22,6 +22,16 @@ public class Database{
         if(!connected) throw new Exception("Could not establish connection to Database. Check username/password.");
     }
     
+    public Database() throws Exception{
+        try {
+        	dbConnection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/bodega", "root", "soyyo1996");
+        } 
+        catch (Exception e) {dbConnection = null;}
+        connected = (dbConnection != null);
+        if(!connected) throw new Exception("Could not establish connection to Database. Check username/password.");
+    }
+    
     public void close(){
         if (!connected) return;
         try {dbConnection.close();}
@@ -122,13 +132,13 @@ public class Database{
         return stock;
     }
     
-    public List<Stock> getAllStock() throws Exception{
+    public ArrayList<Stock> getAllStock() throws Exception{
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
     	String sql, stockName;
     	java.sql.Date lastUpdate;
     	int stockID, noAvailable, noPreferred, noMissing;
-    	List<Stock> stockList = new ArrayList<Stock>();
+    	ArrayList<Stock> stockList = new ArrayList<Stock>();
     	Stock stock = null;
         if (!connected) throw new Exception( "Could not connect to database: Connection closed!" );
         try{

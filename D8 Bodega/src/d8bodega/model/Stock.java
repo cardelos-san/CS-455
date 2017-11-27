@@ -18,6 +18,18 @@ public class Stock {
 		this.noMissing = noMissing;
 	}
 	
+	public int getStockID(){return this.stockID;}
+	
+	public String getstockName(){return this.stockName;}
+	
+	public String lastUpdate(){return this.lastUpdate.toString();}
+	
+	public int getNoAvailable(){return this.noAvailable;}
+	
+	public int getNoPreferred(){return this.noPreferred;}
+	
+	public int getNoMissing(){return this.noMissing;}
+	
 	public String toString(){
 		String result;
 		result = "stockID: " + this.stockID + " Stock Name: " + this.stockName + " Number Available: " + this.noAvailable +

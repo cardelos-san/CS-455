@@ -80,8 +80,15 @@ public class Login_Window extends JFrame {
 				if (password.contains("hann")&username.contains("luis")){
 					passwordField.setText(null);
 				    textField.setText(null);
-				    Select_Window nextFrame = new Select_Window ();
-				    nextFrame.run();
+				    Select_Window nextFrame;
+					try {
+						nextFrame = new Select_Window ();
+						nextFrame.run();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				    
 				    dispose();
 				
 				

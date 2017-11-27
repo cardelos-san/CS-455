@@ -36,7 +36,7 @@ public class Select_Window extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Select_Window() {
+	public Select_Window() throws Exception {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -52,11 +52,18 @@ public class Select_Window extends JFrame {
 		txtpnHello.setBounds(100, 59, 220, 16);
 		contentPane.add(txtpnHello);
 		
-		JButton btnViewInventory = new JButton("VIEW INVENTORY");
+		JButton btnViewInventory = new JButton("VIEW STOCK");
 		btnViewInventory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Inventory_Window view = new Inventory_Window();
-				view.run();
+				Stock_Window view;
+				try {
+					view = new Stock_Window();
+					view.run();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 				dispose();
 			}
 		});
