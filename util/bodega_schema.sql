@@ -7,7 +7,7 @@ CREATE TABLE Category(
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
 
 CREATE TABLE Item(
-  itemId INT(5) NOT NULL PRIMARY KEY,
+  itemId INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   itemName VARCHAR(32) NOT NULL,
   price FLOAT NOT NULL,
   categoryId INT(5) NOT NULL,
@@ -20,12 +20,12 @@ CREATE TABLE Users(
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
 
 CREATE TABLE Stock(
-  stockId INT(5) NOT NULL PRIMARY KEY,
+  stockId INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
   date_updated timestamp NOT NULL default CURRENT_TIMESTAMP,
-  noAvailable INT(5) NOT NULL,
-  noPreferred INT(5) NOT NULL,
-  noSold INT(5) NOT NULL,
-  noMissing INT(5) NOT NULL,
+  noAvailable INT(5) DEFAULT 0,
+  noPreferred INT(5) DEFAULT 0,
+  noSold INT(5) DEFAULT 0,
+  noMissing INT(5) DEFAULT 0,
   itemId INT(5) NOT NULL,
   userId INT(5) NOT NULL
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8  COLLATE=utf8_unicode_ci;
@@ -44,4 +44,4 @@ ALTER TABLE Item                ADD CONSTRAINT categoryId_fk                   F
 ALTER TABLE Item                ADD CONSTRAINT modified_by_user_fk             FOREIGN KEY (userId)       	  REFERENCES Users 	  (userId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE Stock               ADD CONSTRAINT itemId_fk            		   FOREIGN KEY (itemId)       	  REFERENCES Item 	  (itemId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE Stock               ADD CONSTRAINT userId_fk            		   FOREIGN KEY (userId)       	  REFERENCES Users 	  (userId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE StockLog            ADD CONSTRAINT stockId_fk                      FOREIGN KEY (stockId)          REFERENCES Stock    (StockId)        ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE StockLog            ADD CONSTRAINT stockId_fk                      FOREIGN KEY (stockId)          REFERENCES Stock    (StockId)        ON DELETE NO ACTION ON UPDATE NO ACTION; 

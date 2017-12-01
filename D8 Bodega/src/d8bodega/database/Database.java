@@ -29,7 +29,7 @@ public class Database{
         } 
         catch (Exception e) {dbConnection = null;}
         connected = (dbConnection != null);
-        if(!connected) throw new Exception("Could not establish connection to Database. Check username/password.");
+        if(!connected) throw new Exception("Could not establish connection to Database. Check username/password or if table exists.");
     }
     
     public void close(){
@@ -66,6 +66,58 @@ public class Database{
         	stmt.close();
         }
         return item;
+    }
+    
+    public int getItemID(String itemName) throws Exception{
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null;
+    	int itemID = 0;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+        try {
+            sql = "SELECT itemID FROM item WHERE itemName = ? LIMIT 1";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setString( 1, itemName );
+            rset = stmt.executeQuery();
+            if (rset.next()){
+            	itemID = rset.getInt("itemID");
+            }
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+        return itemID;
+    }
+    
+    public void addItem(Item item) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+    	String itemName = item.getItemName();
+    	int categoryID = item.getCategoryID();
+    	int userID = item.getUserID();
+    	float price = item.getPrice();
+    	
+    	
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+        
+        try {
+            sql = "INSERT INTO item(itemName, price, categoryId, userId ) VALUES (?, ?, ?, ?)";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setString( 1, itemName );
+            stmt.setFloat(2, price);
+            stmt.setInt(3, categoryID);
+            stmt.setInt(4, userID );
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
     }
     
     public List<Item> getAllItems() throws Exception{
@@ -130,6 +182,61 @@ public class Database{
         	stmt.close();
         }
         return stock;
+    }
+    
+    public Stock getStockByName(String stockName) throws Exception {
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null;
+    	String sql;
+    	java.sql.Date lastUpdate;
+    	int noAvailable, noPreferred, noMissing;
+    	Stock stock = null;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed!" );
+        try{
+            sql = "SELECT date_updated, noAvailable, noPreferred, noMissing, itemName " + 
+            		"FROM stock, item WHERE itemName = ? LIMIT 1";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setString( 1, stockName);
+            rset = stmt.executeQuery();
+            if (rset.next()){
+                noAvailable = rset.getInt( "noAvailable" );
+                noPreferred = rset.getInt("noPreferred");
+                noMissing = rset.getInt("noMissing");
+                lastUpdate = rset.getDate("date_updated" );
+                stockName = rset.getString("itemName");
+                stock = new Stock(stockName, lastUpdate, noAvailable, noPreferred, noMissing);
+            }
+        } 
+        catch ( Exception e ){
+        	System.out.println( "Error getting item from database: " + e.getMessage());
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+        return stock;
+    }
+    
+    public void addStock(Stock newStock) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+    	int itemID = newStock.getItemID();
+    	int userID = newStock.getUserID();
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "INSERT INTO stock(itemId, userId ) VALUES (?, ?)";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, itemID );
+            stmt.setInt(2, userID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
     }
     
     public ArrayList<Stock> getAllStock() throws Exception{

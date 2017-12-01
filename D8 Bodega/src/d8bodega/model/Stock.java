@@ -8,6 +8,8 @@ public class Stock {
 	private int noAvailable;
 	private int noPreferred;
 	private int noMissing;
+	private int createdByUser;
+	private int itemID;
 	
 	public Stock(int stockID, String stockName, Date lastUpdate, int noAvailable, int noPreferred, int noMissing){
 		this.stockID = stockID;
@@ -18,11 +20,28 @@ public class Stock {
 		this.noMissing = noMissing;
 	}
 	
+	public Stock(String stockName, Date lastUpdate, int noAvailable, int noPreferred, int noMissing){
+		this.stockName = stockName;
+		this.lastUpdate = lastUpdate;
+		this.noAvailable = noAvailable;
+		this.noPreferred = noPreferred;
+		this.noMissing = noMissing;
+	}
+	
+	public Stock(int itemID, int userID){
+		this.itemID = itemID;
+		this.createdByUser = userID;
+	}
+	
 	public int getStockID(){return this.stockID;}
 	
-	public String getstockName(){return this.stockName;}
+	public int getItemID() {return this.itemID;}
 	
-	public String lastUpdate(){return this.lastUpdate.toString();}
+	public int getUserID() {return this.createdByUser;}
+	
+	public String getStockName(){return this.stockName;}
+	
+	public Date getLastUpdated(){return this.lastUpdate;}
 	
 	public int getNoAvailable(){return this.noAvailable;}
 	

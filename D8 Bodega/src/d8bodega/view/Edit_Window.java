@@ -6,10 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextPane;
-import javax.swing.JTextField;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Component;
 import javax.swing.JButton;
 import java.awt.Color;
+import javax.swing.SwingConstants;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -17,74 +22,125 @@ public class Edit_Window extends JFrame {
 
 	private JPanel contentPane;
 
-	public void start() {
-		try {
-			this.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/**
+	 * Launch the application.
+	 */
+	 
+			public void run() {
+				try {
+					Edit_Window frame = new Edit_Window();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+	
+	
 
-
+	/**
+	 * Create the frame.
+	 */
 	public Edit_Window() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.ORANGE);
+		contentPane.setBackground(new Color(51, 153, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
-		JTextPane txtpnWhatWouldYou = new JTextPane();
-		txtpnWhatWouldYou.setBackground(Color.ORANGE);
-		txtpnWhatWouldYou.setBounds(114, 30, 222, 16);
-		txtpnWhatWouldYou.setText("What Would You like to edit ?");
-		contentPane.add(txtpnWhatWouldYou);
+		JLabel lblWhatWouldYou = new JLabel("What Would You Like To Update");
+		lblWhatWouldYou.setBackground(new Color(0, 0, 0));
+		lblWhatWouldYou.setForeground(new Color(0, 0, 0));
+		lblWhatWouldYou.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblWhatWouldYou.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWhatWouldYou.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblWhatWouldYou.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JButton btnEditItem = new JButton("EDIT ITEM");
-		btnEditItem.setBackground(Color.RED);
-		btnEditItem.setBounds(145, 120, 117, 29);
-		contentPane.add(btnEditItem);
+		JButton btnDailySale = new JButton("DAILY SALE");
+		btnDailySale.setForeground(new Color(0, 0, 0));
+		btnDailySale.setBackground(new Color(255, 255, 255));
 		
-		JButton btnEditStock = new JButton("EDIT STOCK ");
-		btnEditStock.setBounds(145, 152, 117, 29);
-		contentPane.add(btnEditStock);
+		JButton btnNewButton = new JButton("UPDATE STOCK");
+		btnNewButton.setBackground(new Color(245, 245, 245));
 		
-		JButton btnGoBack = new JButton("GO BACK ");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 try {
+						Select_Stock_Window nextFrame = new Select_Stock_Window();
+						nextFrame.run();
+						
+					} catch (Exception ecp) {
+						// TODO Auto-generated catch block
+						ecp.printStackTrace();
+					} 
+				   dispose();
+			}
+		});
+		
+		JButton btnGoBack = new JButton("GO BACK");
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Select_Window goback;
-				try {
-					goback = new Select_Window();
-					goback.run();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				dispose();
+				 try {
+						Select_Window goback = new Select_Window();
+						goback.run();
+						
+					} catch (Exception ecp) {
+						// TODO Auto-generated catch block
+						ecp.printStackTrace();
+					} 
+				   dispose();
 			}
 		});
-		btnGoBack.setBackground(Color.GREEN);
-		btnGoBack.setBounds(5, 243, 117, 29);
-		contentPane.add(btnGoBack);
 		
-		JButton btnDailySales = new JButton("DAILY SALES");
-		btnDailySales.setBounds(142, 83, 117, 29);
-		contentPane.add(btnDailySales);
-		
-		JButton btnExit = new JButton("EXIT");
-		btnExit.addActionListener(new ActionListener() {
+		JButton btnNewButton_1 = new JButton("ADD ITEM");
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
+				try {
+					Add_Item_Window goback = new Add_Item_Window();
+					goback.run();
+					
+				} catch (Exception ecp) {
+					// TODO Auto-generated catch block
+					ecp.printStackTrace();
+				} 
+			   dispose();
+		}
+			
 		});
-		btnExit.setBackground(new Color(255, 0, 0));
-		btnExit.setBounds(327, 229, 117, 29);
-		contentPane.add(btnExit);
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnGoBack)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+								.addGap(240)
+								.addComponent(lblWhatWouldYou))
+							.addGroup(gl_contentPane.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+									.addComponent(btnDailySale, GroupLayout.PREFERRED_SIZE, 291, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+										.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))
+								.addGap(11))))
+					.addContainerGap(219, Short.MAX_VALUE))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(71)
+					.addComponent(lblWhatWouldYou)
+					.addGap(48)
+					.addComponent(btnDailySale)
+					.addGap(30)
+					.addComponent(btnNewButton)
+					.addGap(33)
+					.addComponent(btnNewButton_1)
+					.addPreferredGap(ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+					.addComponent(btnGoBack))
+		);
+		contentPane.setLayout(gl_contentPane);
 	}
-
-
-
-
 }
