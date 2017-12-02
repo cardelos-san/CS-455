@@ -92,6 +92,32 @@ public class Database{
         return itemID;
     }
     
+    public int getStockID(String stockName) throws Exception{
+    	
+    	PreparedStatement stmt = null;
+    	ResultSet rset = null;
+    	int stockID = 0;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+        try {
+            sql = "SELECT stockID FROM stock,item WHERE itemName = ? LIMIT 1";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setString( 1, stockName );
+            rset = stmt.executeQuery();
+            if (rset.next()){
+            	stockID = rset.getInt("stockId");
+            }
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+        return stockID;
+    	
+    }
+    
     public void addItem(Item item) throws Exception{
     	PreparedStatement stmt = null;
     	String sql;
@@ -194,7 +220,7 @@ public class Database{
         if (!connected) throw new Exception( "Could not connect to database: Connection closed!" );
         try{
             sql = "SELECT date_updated, noAvailable, noPreferred, noMissing, itemName " + 
-            		"FROM stock, item WHERE itemName = ? LIMIT 1";
+            		"FROM stock, item WHERE itemName = ? AND stock.stockId = item.itemId  LIMIT 1";
             stmt = dbConnection.prepareStatement( sql );
             stmt.setString( 1, stockName);
             rset = stmt.executeQuery();
@@ -229,6 +255,46 @@ public class Database{
             stmt = dbConnection.prepareStatement( sql );
             stmt.setInt( 1, itemID );
             stmt.setInt(2, userID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+    }
+    
+    public void addStock(int stockID, int noAvailable) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "UPDATE stock SET noAvailable = noAvailable + ? WHERE stockID = ?";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, noAvailable );
+            stmt.setInt(2, stockID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+    }
+    
+    public void updateNoPreferred(int stockID, int noPreferred) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "UPDATE stock SET noPreferred = ? WHERE stockID = ?";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, noPreferred );
+            stmt.setInt(2, stockID);
             stmt.executeUpdate();
         } 
         catch ( Exception e ){

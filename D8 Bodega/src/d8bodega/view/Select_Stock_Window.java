@@ -66,8 +66,8 @@ public class Select_Stock_Window extends JFrame {
 			
 				String stockName = textField.getText();
 			    try {
-			    	Update_Stock_Window nextFrame = new Update_Stock_Window("debug");
-			    	nextFrame.run(db.getStockByName(stockName));
+			    	Update_Stock_Window nextFrame = new Update_Stock_Window();
+			    	nextFrame.run(stockName);
 			    	
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block

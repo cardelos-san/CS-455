@@ -143,7 +143,7 @@ public class Stock_Window extends JFrame {
 			data2[i][0] = allStock.get(i).getStockName();
 			data2[i][1] = allStock.get(i).getNoAvailable();
 			data2[i][2] = allStock.get(i).getNoMissing();
-			data2[i][3] = allStock.get(i).getNoMissing();
+			data2[i][3] = allStock.get(i).getNoPreferred();
 			data2[i][4] = allStock.get(i).getLastUpdated();
 			}
 		
