@@ -43,6 +43,6 @@ CREATE TABLE StockLog(
 
 ALTER TABLE Item                ADD CONSTRAINT categoryId_fk                   FOREIGN KEY (categoryId)       REFERENCES Category (categoryId)     ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE Item                ADD CONSTRAINT modified_by_user_fk             FOREIGN KEY (userId)       	  REFERENCES Users 	  (userId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
-ALTER TABLE Stock               ADD CONSTRAINT itemId_fk            		   FOREIGN KEY (itemId)       	  REFERENCES Item 	  (itemId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE Stock               ADD CONSTRAINT itemId_fk            		   FOREIGN KEY (itemId)       	  REFERENCES Item 	  (itemId)     	   ON DELETE CASCADE ON UPDATE NO ACTION;
 ALTER TABLE Stock               ADD CONSTRAINT userId_fk            		   FOREIGN KEY (userId)       	  REFERENCES Users 	  (userId)     	   ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE StockLog            ADD CONSTRAINT stockId_fk                      FOREIGN KEY (stockId)          REFERENCES Stock    (StockId)        ON DELETE NO ACTION ON UPDATE NO ACTION; 

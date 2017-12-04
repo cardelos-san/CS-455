@@ -74,7 +74,7 @@ public class Update_Stock_Window extends JFrame {
 		table = show_stock(db.getStockByName(stockName));
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 869, 502);
+		setBounds(100, 100, 970, 520);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(51, 153, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

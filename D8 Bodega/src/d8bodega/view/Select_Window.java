@@ -14,6 +14,7 @@ import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Select_Window extends JFrame {
 
@@ -40,7 +41,7 @@ public class Select_Window extends JFrame {
 	public Select_Window() {
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 869, 502);
+		setBounds(100, 100, 970, 520);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(51, 153, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -79,29 +80,53 @@ public class Select_Window extends JFrame {
 		  
 			
 		});
+		
+		JButton btnLogout = new JButton("LOGOUT");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					Login_Window nextFrame = new Login_Window();
+					nextFrame.run();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				dispose();
+			}
+		});
+		
+		btnLogout.setForeground(Color.RED);
+		
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(282, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-						.addComponent(btnNewButton_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(lblSelectWhatTo, Alignment.TRAILING)
-						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE))
-					.addGap(294))
+					.addContainerGap(389, Short.MAX_VALUE)
+					.addComponent(btnLogout)
+					.addContainerGap())
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addContainerGap(368, Short.MAX_VALUE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(lblSelectWhatTo, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(335))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(70)
+					.addGap(71)
 					.addComponent(lblSelectWhatTo)
 					.addGap(86)
 					.addComponent(btnNewButton)
-					.addGap(63)
+					.addGap(64)
 					.addComponent(btnNewButton_1)
-					.addContainerGap(130, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
+					.addComponent(btnLogout))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
-
 }

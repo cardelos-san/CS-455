@@ -43,7 +43,7 @@ public class Edit_Window extends JFrame {
 	public Edit_Window() {
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 869, 502);
+		setBounds(100, 100, 970, 520);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(51, 153, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -122,38 +122,49 @@ public class Edit_Window extends JFrame {
 		}
 			
 		});
+		
+		JButton btnDeleteItem = new JButton("DELETE ITEM");
+		btnDeleteItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Delete_Item_Window nextFrame = new Delete_Item_Window();
+				nextFrame.run();
+				dispose();
+			}
+		});
+		btnDeleteItem.setForeground(Color.RED);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(btnGoBack)
+					.addContainerGap(322, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(308, Short.MAX_VALUE)
+					.addComponent(lblWhatWouldYou)
+					.addGap(289))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(339)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnGoBack)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-								.addGap(240)
-								.addComponent(lblWhatWouldYou))
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(btnDailySale, GroupLayout.PREFERRED_SIZE, 291, GroupLayout.PREFERRED_SIZE)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-										.addComponent(btnNewButton_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(btnNewButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)))
-								.addGap(11))))
-					.addContainerGap(219, Short.MAX_VALUE))
+						.addComponent(btnDeleteItem, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+						.addComponent(btnNewButton_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+						.addComponent(btnNewButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
+						.addComponent(btnDailySale, GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+					.addGap(314))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(71)
+					.addGap(75)
 					.addComponent(lblWhatWouldYou)
-					.addGap(48)
+					.addGap(38)
 					.addComponent(btnDailySale)
-					.addGap(30)
+					.addGap(18)
 					.addComponent(btnNewButton)
-					.addGap(33)
+					.addGap(18)
 					.addComponent(btnNewButton_1)
-					.addPreferredGap(ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(btnDeleteItem)
+					.addPreferredGap(ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
 					.addComponent(btnGoBack))
 		);
 		contentPane.setLayout(gl_contentPane);

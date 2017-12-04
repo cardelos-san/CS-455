@@ -1,6 +1,7 @@
 package d8bodega.view;
 
 import org.mindrot.jbcrypt.*;
+import d8bodega.model.*;
 import d8bodega.database.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
@@ -30,16 +31,28 @@ public class Login_Window extends JFrame {
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private Database db;
+	private User user;
 
 	/**
 	 * Create the frame.
 	 * @throws Exception 
 	 */
+	
+	public void run() {
+		try {
+			Login_Window frame = new Login_Window();
+			frame.setVisible(true);
+			} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Login_Window() throws Exception {
 		db = new Database();
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 977, 502);
+		setBounds(100, 100, 970, 520);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -80,8 +93,6 @@ public class Login_Window extends JFrame {
 				String hash = "dummy";
 				
 				
-				
-				
 				try {
 					hash = db.getPassword(username);
 				} catch (SQLException e2) {
@@ -90,31 +101,56 @@ public class Login_Window extends JFrame {
 				}
 				
 				boolean authenticated = false;
-				boolean bcrypted = true;
+				boolean userExists = true;
 				
 				try {
 				authenticated = BCrypt.checkpw(password, hash);
 				}
 				catch(Exception bcrypt) {
-					bcrypted = false;	
+					userExists = false;	
 				}
 				
                 
 				
-				if (authenticated && bcrypted){
+				if (userExists && authenticated){
+					try {
+						user = db.getUser(username);
+					} catch (SQLException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+					}
 					passwordField.setText(null);
 				    textField.setText(null);
 				    Select_Window nextFrame;
-					try {
-						nextFrame = new Select_Window ();
-						nextFrame.run();
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+				    Stock_Employee_Window nextFrame2;
 				    
-				    dispose();
-			}
+				    switch(user.getUserID()) {
+				    //Admin login
+				    case 1: try {
+								nextFrame = new Select_Window ();
+								nextFrame.run();
+							} 
+				    		catch (Exception e1) {
+				    			// TODO Auto-generated catch block
+				    			e1.printStackTrace();
+				    		}
+				    		dispose();
+				    		break;
+				    //Employee login
+				    case 2: try {
+								nextFrame2 = new Stock_Employee_Window ();
+								nextFrame2.run();
+								System.out.println("Employee");
+							} 
+		    				catch (Exception e1) {
+		    					// TODO Auto-generated catch block
+		    					e1.printStackTrace();
+		    				}
+		    				dispose();
+		    				break;
+				    }
+				    
+				}
 				else {
 					JOptionPane.showMessageDialog(null,"Invalid User Name or Password","LOGINERROR",
 						JOptionPane.ERROR_MESSAGE);
@@ -136,52 +172,52 @@ public class Login_Window extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(320)
-					.addComponent(txtpnWelcome, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(404, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(174)
+					.addGap(230)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(btnReset, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtpnWelcome, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtpnUserid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textField, 176, 176, 176)
-								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
-							.addGap(236)))
-					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addGap(36)
+									.addComponent(txtpnUserid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField, 176, 176, 176))))
+					.addPreferredGap(ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
 					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
-					.addGap(183))
+					.addGap(151))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(55)
+							.addGap(60)
 							.addComponent(txtpnWelcome, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-							.addGap(91)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtpnUserid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE)
-								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(86)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(txtpnUserid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnReset)
 								.addComponent(btnLogin)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(108)
+							.addGap(144)
 							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)))
-					.addGap(172))
+					.addContainerGap(162, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}

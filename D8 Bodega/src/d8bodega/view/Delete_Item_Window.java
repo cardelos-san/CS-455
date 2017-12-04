@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 
-public class Select_Stock_Window extends JFrame {
+public class Delete_Item_Window extends JFrame {
 
 	/**
 	 * 
@@ -34,7 +34,7 @@ public class Select_Stock_Window extends JFrame {
 
 	public void run() {
 		try {
-			Select_Stock_Window frame = new Select_Stock_Window();
+			Delete_Item_Window frame = new Delete_Item_Window();
 			frame.setVisible(true);
 			} 
 		catch (Exception e) {
@@ -44,7 +44,7 @@ public class Select_Stock_Window extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Select_Stock_Window() {
+	public Delete_Item_Window() {
 		try {
 			db = new Database();
 		} catch (Exception e1) {
@@ -59,10 +59,10 @@ public class Select_Stock_Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JLabel lblEditSock = new JLabel("STOCK SEARCH ");
+		JLabel lblEditSock = new JLabel("DELETE ITEM");
 		lblEditSock.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		JLabel lblEnterTheN = new JLabel("Enter the name of the stock to update");
+		JLabel lblEnterTheN = new JLabel("Enter the name of the item you wish to delete");
 		lblEnterTheN.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		
 		textField = new JTextField();
@@ -71,31 +71,35 @@ public class Select_Stock_Window extends JFrame {
 		JButton btnEnter = new JButton("ENTER");
 		btnEnter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
-				String stockName = textField.getText();
+				boolean itemExists = false;
+				String itemName = textField.getText();
 
 				try {
-					itemID = db.getItemID(stockName);
+					itemID = db.getItemID(itemName);
+					if(itemID != 0) {
+						itemExists = true;
+					}
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				
-				if(itemID == 0) {
-					JOptionPane.showMessageDialog(null,"Item cannot be found","ITEM DOES NOT EXIST",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
-				else {
-				    try {
-				    	Update_Stock_Window nextFrame = new Update_Stock_Window();
-				    	nextFrame.run(stockName);
-				    	
-					} catch (Exception e1) {
+				if(itemExists) {
+					
+					try {
+						db.deleteItem(itemName);
+					} 
+					catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-				dispose();
+					JOptionPane.showMessageDialog(null,"Item has been deleted","DELETE ITEM",
+							JOptionPane.INFORMATION_MESSAGE);
+					textField.setText(null);	
+				}
+				else {
+					JOptionPane.showMessageDialog(null,"Item cannot be found","ITEM DOES NOT EXIST",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -121,34 +125,34 @@ public class Select_Stock_Window extends JFrame {
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnGoBack)
-						.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblEditSock, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblEnterTheN, GroupLayout.PREFERRED_SIZE, 274, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)))
-							.addGap(12)
-							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-							.addGap(1)))
-					.addGap(85))
+							.addComponent(lblEnterTheN)
+							.addGap(18)
+							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+							.addGap(10)
+							.addComponent(btnEnter, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE))
+						.addComponent(btnGoBack))
+					.addContainerGap(36, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+					.addContainerGap(231, Short.MAX_VALUE)
+					.addComponent(lblEditSock, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+					.addGap(201))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(31)
+					.addGap(28)
 					.addComponent(lblEditSock, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(4)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(82)
+							.addGap(80)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnEnter)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+								.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnEnter)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(85)
+							.addGap(83)
 							.addComponent(lblEnterTheN)))
 					.addPreferredGap(ComponentPlacement.RELATED, 293, Short.MAX_VALUE)
 					.addComponent(btnGoBack))

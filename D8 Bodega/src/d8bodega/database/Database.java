@@ -146,6 +146,27 @@ public class Database{
         }
     }
     
+    public void deleteItem(String itemName) throws Exception {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	try {
+    		sql = "DELETE FROM item WHERE itemName = ?";
+    		stmt = dbConnection.prepareStatement( sql );
+    		stmt.setString( 1, itemName );
+    		stmt.executeUpdate();
+    	}
+    	catch ( Exception e ){
+        	throw e;
+        } 
+    	
+    	finally {
+    		stmt.close();
+    	}
+    	
+    	
+    }
+    
     public List<Item> getAllItems() throws Exception{
     	PreparedStatement stmt = null;
     	ResultSet rset = null;
@@ -419,6 +440,29 @@ public class Database{
     	}
     	
     	return hash;
+    }
+    
+    public User getUser(String username)throws SQLException {
+    	User user;
+    	int userId = 0;
+    	PreparedStatement stmt = null;
+    	String sql;
+    	
+    	sql = "SELECT userId, uName FROM users WHERE uName = ? LIMIT 1";
+    	try {
+    		stmt = dbConnection.prepareStatement( sql );
+    		stmt.setString( 1, username );
+    		ResultSet rset = stmt.executeQuery();
+    		if ( rset.next() ) {
+    			userId = rset.getInt( "userId" );
+    		}
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	user = new User(userId, username);    	
+    	return user;
+    	
     }
     
    

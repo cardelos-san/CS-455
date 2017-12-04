@@ -31,7 +31,7 @@ import java.text.*;
 import java.awt.print.*;
 
 
-public class Stock_Window extends JFrame {
+public class Stock_Employee_Window extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -46,7 +46,7 @@ public class Stock_Window extends JFrame {
 		
 			public void run() {
 				try {
-					Stock_Window frame = new Stock_Window();
+					Stock_Employee_Window frame = new Stock_Employee_Window();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -59,7 +59,7 @@ public class Stock_Window extends JFrame {
 	 * Create the frame.
 	 * @throws Exception 
 	 */
-	public Stock_Window() throws Exception {
+	public Stock_Employee_Window() throws Exception {
 		try {
 			db = new Database();
 		} catch (Exception e) {
@@ -77,21 +77,23 @@ public class Stock_Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JButton goBack = new JButton("GO BACK");
-		goBack.addActionListener(new ActionListener() {
+		JButton btnLogout = new JButton("LOGOUT");
+		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			 try {
-				Select_Window goback = new Select_Window();
-				goback.run();
 				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-		   dispose();
+				try {
+					Login_Window nextFrame = new Login_Window();
+					nextFrame.run();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				dispose();
 			}
-		
 		});
+		
+		btnLogout.setForeground(Color.RED);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
@@ -124,7 +126,7 @@ public class Stock_Window extends JFrame {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-					.addComponent(goBack)
+					.addComponent(btnLogout)
 					.addPreferredGap(ComponentPlacement.RELATED, 703, Short.MAX_VALUE)
 					.addComponent(btnPrint)
 					.addGap(20))
@@ -146,7 +148,7 @@ public class Stock_Window extends JFrame {
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
 					.addGap(55)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(goBack)
+						.addComponent(btnLogout)
 						.addComponent(btnPrint)))
 		);
 		
