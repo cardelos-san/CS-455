@@ -20,6 +20,9 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Login_Window extends JFrame {
 
@@ -36,35 +39,26 @@ public class Login_Window extends JFrame {
 		db = new Database();
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 869, 502);
+		setBounds(100, 100, 977, 502);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		contentPane.setBackground(Color.CYAN);
 		
 		JTextPane txtpnUserid = new JTextPane();
 		txtpnUserid.setEditable(false);
 		txtpnUserid.setBackground(Color.LIGHT_GRAY);
 		txtpnUserid.setText("USER");
-		txtpnUserid.setBounds(179, 131, 56, 16);
-		contentPane.add(txtpnUserid);
 		
 		JTextPane txtpnPassword = new JTextPane();
 		txtpnPassword.setEditable(false);
 		txtpnPassword.setBackground(Color.LIGHT_GRAY);
 		txtpnPassword.setText("PASSWORD");
-		txtpnPassword.setBounds(179, 159, 76, 16);
-		contentPane.add(txtpnPassword);
 		
 		textField = new JTextField();
-		textField.setBounds(234, 131, 120, 16);
-		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(255, 159, 100, 16);
-		contentPane.add(passwordField);
 		
 		JButton btnReset = new JButton("RESET");
 		btnReset.addActionListener(new ActionListener() {
@@ -75,8 +69,6 @@ public class Login_Window extends JFrame {
 		});
 		btnReset.setBackground(Color.WHITE);
 		btnReset.setForeground(Color.GREEN);
-		btnReset.setBounds(138, 197, 117, 29);
-		contentPane.add(btnReset);
 		
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
@@ -130,21 +122,67 @@ public class Login_Window extends JFrame {
 				
 			}});
 		btnLogin.setForeground(Color.RED);
-		btnLogin.setBounds(255, 197, 117, 29);
-		contentPane.add(btnLogin);
 		
 		JTextPane txtpnWelcome = new JTextPane();
 		txtpnWelcome.setEditable(false);
 		txtpnWelcome.setBackground(Color.CYAN);
 		txtpnWelcome.setForeground(Color.BLACK);
-		txtpnWelcome.setFont(new Font("Lucida Grande", Font.BOLD, 20));
+		txtpnWelcome.setFont(new Font("Dialog", Font.BOLD, 40));
 		txtpnWelcome.setText("WELCOME");
-		txtpnWelcome.setBounds(204, 62, 108, 29);
-		contentPane.add(txtpnWelcome);
 		
 		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setIcon(new ImageIcon("R:\\Carlos\\Documents\\CS-455\\D8 Bodega\\images\\d8bodega.png"));
-		lblNewLabel.setBounds(470, 95, 184, 165);
-		contentPane.add(lblNewLabel);
+		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Carl\\Documents\\CS-455\\D8 Bodega\\images\\d8bodega.png"));
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(320)
+					.addComponent(txtpnWelcome, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(398, Short.MAX_VALUE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(174)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addComponent(btnReset, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtpnUserid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(textField)
+								.addComponent(passwordField, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
+							.addGap(236)))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+					.addGap(183))
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(55)
+							.addComponent(txtpnWelcome, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(textField)
+								.addComponent(txtpnUserid))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+								.addComponent(passwordField, 0, 0, Short.MAX_VALUE)
+								.addComponent(txtpnPassword, GroupLayout.PREFERRED_SIZE, 22, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(btnReset)
+								.addComponent(btnLogin)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(108)
+							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 165, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(163, Short.MAX_VALUE))
+		);
+		contentPane.setLayout(gl_contentPane);
 	}
 }
