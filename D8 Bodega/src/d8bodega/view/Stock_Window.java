@@ -1,6 +1,7 @@
 package d8bodega.view;
 
 import java.awt.BorderLayout;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,12 +22,13 @@ import javax.swing.JTextPane;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.ArrayList;
-import java.util.List;
 
 import d8bodega.model.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import java.text.*;
+import java.awt.print.*;
 
 
 public class Stock_Window extends JFrame {
@@ -75,7 +77,7 @@ public class Stock_Window extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		JButton goBack = new JButton("Go back");
+		JButton goBack = new JButton("GO BACK");
 		goBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			 try {
@@ -97,15 +99,38 @@ public class Stock_Window extends JFrame {
 		lblDisplayingStock.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		lblDisplayingStock.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblDisplayingStock.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		JButton btnPrint = new JButton("PRINT");
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				MessageFormat header = new MessageFormat("Stock Report");
+				
+				MessageFormat footer = new MessageFormat("Page {0, number, integer}");
+				
+				try {
+					
+					table.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+					
+				}
+				catch(Exception e) {
+					System.err.format("Cannotprint", e);
+				}
+				
+				
+			}
+		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
 					.addComponent(goBack)
-					.addContainerGap(709, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, 703, Short.MAX_VALUE)
+					.addComponent(btnPrint)
+					.addGap(20))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(80)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 649, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 714, Short.MAX_VALUE)
 					.addGap(69))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(331)
@@ -120,7 +145,9 @@ public class Stock_Window extends JFrame {
 					.addGap(53)
 					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
 					.addGap(55)
-					.addComponent(goBack))
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(goBack)
+						.addComponent(btnPrint)))
 		);
 		
 		try {
