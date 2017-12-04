@@ -80,7 +80,7 @@ public class Add_Item_Window extends JFrame {
 		btnGoBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					Select_Window goback = new Select_Window();
+					Edit_Window goback = new Edit_Window();
 					goback.run();
 					
 				} catch (Exception ecp) {
@@ -129,7 +129,7 @@ public class Add_Item_Window extends JFrame {
 					categoryID = 4;
 					break;
 				
-				case "Bevarage": 
+				case "Beverages": 
 					categoryID = 5;
 					break;
 				

@@ -100,7 +100,7 @@ public class Database{
     	String sql;
         if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
         try {
-            sql = "SELECT stockID FROM stock,item WHERE itemName = ? LIMIT 1";
+            sql = "SELECT stockID FROM stock,item WHERE itemName = ? AND stock.itemId = item.itemId LIMIT 1";
             stmt = dbConnection.prepareStatement( sql );
             stmt.setString( 1, stockName );
             rset = stmt.executeQuery();
@@ -220,7 +220,7 @@ public class Database{
         if (!connected) throw new Exception( "Could not connect to database: Connection closed!" );
         try{
             sql = "SELECT date_updated, noAvailable, noPreferred, noMissing, itemName " + 
-            		"FROM stock, item WHERE itemName = ? AND stock.stockId = item.itemId  LIMIT 1";
+            		"FROM stock, item WHERE itemName = ? AND stock.itemId = item.itemId  LIMIT 1";
             stmt = dbConnection.prepareStatement( sql );
             stmt.setString( 1, stockName);
             rset = stmt.executeQuery();
@@ -285,6 +285,26 @@ public class Database{
         }
     }
     
+    public void updateNoAvailable(int stockID, int noSold) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "UPDATE stock SET noAvailable = noAvailable - ? WHERE stockID = ?";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, noSold );
+            stmt.setInt(2, stockID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+    }
+    
     public void updateNoPreferred(int stockID, int noPreferred) throws Exception{
     	PreparedStatement stmt = null;
     	String sql;
@@ -295,6 +315,47 @@ public class Database{
             stmt = dbConnection.prepareStatement( sql );
             stmt.setInt( 1, noPreferred );
             stmt.setInt(2, stockID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+    }
+    
+    public void updateNoSold(int stockID, int noSold) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "UPDATE stock SET noSold = noSold + ? WHERE stockID = ?";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, noSold );
+            stmt.setInt(2, stockID);
+            stmt.executeUpdate();
+        } 
+        catch ( Exception e ){
+        	throw e;
+        } 
+        finally{
+        	stmt.close();
+        }
+    }
+    
+    public void updateNoMissing(int stockID, int noAvailable, int noPreferred) throws Exception{
+    	PreparedStatement stmt = null;
+    	String sql;
+        if (!connected) throw new Exception( "Could not connect to database: Connection closed" );
+     
+        try {
+            sql = "UPDATE stock SET noMissing = ? - ? WHERE stockId = ?";
+            stmt = dbConnection.prepareStatement( sql );
+            stmt.setInt( 1, noPreferred );
+            stmt.setInt(2, noAvailable);
+            stmt.setInt(3, stockID);
             stmt.executeUpdate();
         } 
         catch ( Exception e ){
@@ -338,5 +399,27 @@ public class Database{
         }
         return stockList;
     }
-
+    
+    public String getPassword( String uName ) throws SQLException {
+    	PreparedStatement stmt = null;
+    	String sql;
+    	String hash = "";
+    	
+    	sql = "SELECT pWord FROM users WHERE uName = ? LIMIT 1";
+    	try {
+    		stmt = dbConnection.prepareStatement( sql );
+    		stmt.setString( 1, uName );
+    		ResultSet rset = stmt.executeQuery();
+    		
+    		if ( rset.next() ) {
+    			hash = rset.getString( "pWord" );
+    		}
+    	} finally {
+    		stmt.close();
+    	}
+    	
+    	return hash;
+    }
+    
+   
 }

@@ -1,7 +1,8 @@
 
 -- Insert default user
-INSERT INTO Users(userId, pWord)
-VALUES(1, "tampico");
+-- Password in plain text is "tampico"
+INSERT INTO Users(userId,uName, pWord)
+VALUES(1,"admin", "$2a$12$3TJI70ceIgkjc/KnXQ80LOVzHJb9uCrDADpiAkdECqwOlcoItQgAe");
 
 -- Insert default categories
 Insert Into Category(categoryName,categoryId)

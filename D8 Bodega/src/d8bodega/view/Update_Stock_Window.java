@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTable;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextPane;
 import java.awt.Component;
@@ -117,6 +118,7 @@ public class Update_Stock_Window extends JFrame {
 		JButton btnSubmit = new JButton("SUBMIT");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				int stockID = 0;
 				try {
 					stockID = db.getStockID(stockName);
@@ -125,35 +127,108 @@ public class Update_Stock_Window extends JFrame {
 					e.printStackTrace();
 				}
 				
+				int noAvailable = 0;
+				int noPreferred = 0;
+				boolean updateNoAvailable = false, updateNoPreferred = false;
+				
 				if(textFieldMoreStock.getText().equals("")) {
 					System.out.println("Empty Available");
 				}
 				else {
-				int noAvailable = Integer.parseInt(textFieldMoreStock.getText());
-				
-				try {
-					db.addStock(stockID, noAvailable);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				updateNoAvailable = true;
+				noAvailable = Integer.parseInt(textFieldMoreStock.getText());
 				}
 				
 				if(textFieldUpdatePNumber.getText().equals("")) {
 					System.out.println("Empty Preferred");
 				}
 				else {
-				int noPreferred = Integer.parseInt(textFieldUpdatePNumber.getText());
+				updateNoPreferred = true;
+				noPreferred = Integer.parseInt(textFieldUpdatePNumber.getText());
+				}
 				
+				int currentNoAvailable=0;
+				int currentNoPreferred=0;
 				try {
-					db.updateNoPreferred(stockID, noPreferred);
+					currentNoAvailable = db.getStock(stockID).getNoAvailable();
+					currentNoPreferred = db.getStock(stockID).getNoPreferred();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				if(updateNoAvailable && updateNoPreferred) {
+					if(noAvailable + currentNoAvailable > noPreferred) {
+						JOptionPane.showMessageDialog(null,"Number available cannot exceed number preferred","VALUE ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						try {
+							db.updateNoPreferred(stockID, noPreferred);
+							db.addStock(stockID, noAvailable);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				
+				
+				
+				if(updateNoAvailable && !updateNoPreferred) {
+					
+					if(noAvailable + currentNoAvailable> currentNoPreferred) {
+						
+						JOptionPane.showMessageDialog(null,"Number available cannot exceed number preferred","VALUE ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+					else {
+						try {
+							db.addStock(stockID, noAvailable);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}		
+				}
+				
+				if(!updateNoAvailable && updateNoPreferred) {
+					
+					if(currentNoAvailable > noPreferred) {
+						
+						JOptionPane.showMessageDialog(null,"Number preferred cannot be less than number available","VALUE ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
+					else {
+						try {
+							db.updateNoPreferred(stockID, noPreferred);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}		
+				}
+					
+				int newNoAvailable=0;
+				int newNoPreferred=0;
+				try {
+					newNoAvailable = db.getStock(stockID).getNoAvailable();
+					newNoPreferred = db.getStock(stockID).getNoPreferred();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					db.updateNoMissing(stockID, newNoAvailable, newNoPreferred);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				
 			}
+			
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(

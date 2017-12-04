@@ -1,5 +1,7 @@
 package d8bodega.view;
 
+import org.mindrot.jbcrypt.*;
+import d8bodega.database.*;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -13,6 +15,7 @@ import java.awt.Color;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -21,11 +24,14 @@ public class Login_Window extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
+	private Database db;
 
 	/**
 	 * Create the frame.
+	 * @throws Exception 
 	 */
-	public Login_Window() {
+	public Login_Window() throws Exception {
+		db = new Database();
 		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
@@ -38,7 +44,7 @@ public class Login_Window extends JFrame {
 		JTextPane txtpnUserid = new JTextPane();
 		txtpnUserid.setEditable(false);
 		txtpnUserid.setBackground(Color.LIGHT_GRAY);
-		txtpnUserid.setText("USERID");
+		txtpnUserid.setText("USER");
 		txtpnUserid.setBounds(179, 131, 56, 16);
 		contentPane.add(txtpnUserid);
 		
@@ -74,10 +80,39 @@ public class Login_Window extends JFrame {
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				String password= passwordField.getText();
 				String username= textField.getText();
 				
-				if (password.contains("hann")&username.contains("luis")){
+				String hash = "dummy";
+				
+				
+				
+				try {
+					hash = db.getPassword(username);
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				boolean authenticated = false;
+				boolean bcrypted = true;
+				
+				try {
+				authenticated = BCrypt.checkpw(password, hash);
+				}
+				catch(Exception bcrypt) {
+					bcrypted = false;
+					JOptionPane.showMessageDialog(null,"Invalid UserName or Password","LOGINERROR",
+							JOptionPane.ERROR_MESSAGE);
+					
+				}
+				
+				if(!bcrypted) {
+					
+				}
+				
+				if (authenticated && bcrypted){
 					passwordField.setText(null);
 				    textField.setText(null);
 				    Select_Window nextFrame;

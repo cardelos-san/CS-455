@@ -57,6 +57,20 @@ public class Edit_Window extends JFrame {
 		lblWhatWouldYou.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		JButton btnDailySale = new JButton("DAILY SALE");
+		btnDailySale.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				try {
+					Daily_Sales_Window nextFrame = new Daily_Sales_Window();
+					nextFrame.run();
+					
+				} catch (Exception ecp) {
+					// TODO Auto-generated catch block
+					ecp.printStackTrace();
+				} 
+			   dispose();
+			}
+		});
 		btnDailySale.setForeground(new Color(0, 0, 0));
 		btnDailySale.setBackground(new Color(255, 255, 255));
 		
