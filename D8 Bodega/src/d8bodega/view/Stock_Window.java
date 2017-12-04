@@ -67,7 +67,7 @@ public class Stock_Window extends JFrame {
 		allStock = db.getAllStock();
 		tableSize = allStock.size();
 		db.close();
-		
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();

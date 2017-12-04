@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -26,8 +27,8 @@ import java.awt.Color;
 public class Add_Item_Window extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField NameTextField;
-	private JTextField PriceTextField;
+	private JTextField nameTextField;
+	private JTextField priceTextField;
 	private JTextPane txtpnEnterName;
 	private JComboBox categoryList;
 	private Database db;
@@ -55,6 +56,7 @@ public class Add_Item_Window extends JFrame {
 	 */
 	public Add_Item_Window() throws Exception {
 		db= new Database();
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();
@@ -66,15 +68,15 @@ public class Add_Item_Window extends JFrame {
 		txtpnEnterName.setEditable(false);
 		txtpnEnterName.setText("Enter Name");
 		
-		NameTextField = new JTextField();
-		NameTextField.setColumns(10);
+		nameTextField = new JTextField();
+		nameTextField.setColumns(10);
 		
 		JTextPane txtpnEnterPrice = new JTextPane();
 		txtpnEnterPrice.setEditable(false);
 		txtpnEnterPrice.setText("Enter Price");
 		
-		PriceTextField = new JTextField();
-		PriceTextField.setColumns(10);
+		priceTextField = new JTextField();
+		priceTextField.setColumns(10);
 		
 		JButton btnGoBack = new JButton("GO BACK");
 		btnGoBack.addActionListener(new ActionListener() {
@@ -100,13 +102,19 @@ public class Add_Item_Window extends JFrame {
 		categoryList.setMaximumRowCount(13);
 		
 		JButton btnReset = new JButton("RESET");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				priceTextField.setText(null);
+				nameTextField.setText(null);
+			}
+		});
 		
 		JButton btnSubmit = new JButton("SUBMIT");
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String itemName = NameTextField.getText();
-				float price = Float.parseFloat(PriceTextField.getText());
+				String itemName = nameTextField.getText();
+				float price = Float.parseFloat(priceTextField.getText());
 				String categoryName = categoryList.getSelectedItem().toString();
 				Item newItem = null;
 				Stock defaultStock = null;
@@ -186,7 +194,17 @@ public class Add_Item_Window extends JFrame {
 				}
 				
 				
+				JOptionPane.showMessageDialog(null,"Item added succesfully","ITEM ADDED",
+						JOptionPane.INFORMATION_MESSAGE);
+				
+				Update_Stock_Window nextFrame = new Update_Stock_Window();
+				nextFrame.run(itemName);
+				
+				dispose();
 			}
+			
+			
+			
 			
 		});
 		
@@ -215,11 +233,11 @@ public class Add_Item_Window extends JFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 										.addComponent(categoryList, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-										.addComponent(PriceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+										.addComponent(priceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
 									.addComponent(txtpnEnterName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(NameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+									.addComponent(nameTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
 					.addGap(478))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(318)
@@ -234,13 +252,13 @@ public class Add_Item_Window extends JFrame {
 							.addGap(37)
 							.addComponent(lblAddItem, GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
 							.addGap(60)
-							.addComponent(NameTextField, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+							.addComponent(nameTextField, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(txtpnEnterName, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(PriceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(priceTextField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtpnEnterPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)

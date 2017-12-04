@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class Login_Window extends JFrame {
 
@@ -76,7 +78,6 @@ public class Login_Window extends JFrame {
 		btnReset.setBounds(138, 197, 117, 29);
 		contentPane.add(btnReset);
 		
-		
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -85,6 +86,7 @@ public class Login_Window extends JFrame {
 				String username= textField.getText();
 				
 				String hash = "dummy";
+				
 				
 				
 				
@@ -102,15 +104,10 @@ public class Login_Window extends JFrame {
 				authenticated = BCrypt.checkpw(password, hash);
 				}
 				catch(Exception bcrypt) {
-					bcrypted = false;
-					JOptionPane.showMessageDialog(null,"Invalid UserName or Password","LOGINERROR",
-							JOptionPane.ERROR_MESSAGE);
-					
+					bcrypted = false;	
 				}
 				
-				if(!bcrypted) {
-					
-				}
+                
 				
 				if (authenticated && bcrypted){
 					passwordField.setText(null);
@@ -125,11 +122,9 @@ public class Login_Window extends JFrame {
 					}
 				    
 				    dispose();
-				
-				
 			}
 				else {
-					JOptionPane.showMessageDialog(null,"Invalid UserName or Password","LOGINERROR",
+					JOptionPane.showMessageDialog(null,"Invalid User Name or Password","LOGINERROR",
 						JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -146,5 +141,10 @@ public class Login_Window extends JFrame {
 		txtpnWelcome.setText("WELCOME");
 		txtpnWelcome.setBounds(204, 62, 108, 29);
 		contentPane.add(txtpnWelcome);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon("R:\\Carlos\\Documents\\CS-455\\D8 Bodega\\images\\d8bodega.png"));
+		lblNewLabel.setBounds(470, 95, 184, 165);
+		contentPane.add(lblNewLabel);
 	}
 }

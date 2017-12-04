@@ -72,7 +72,7 @@ public class Update_Stock_Window extends JFrame {
 		}
 		
 		table = show_stock(db.getStockByName(stockName));
-		
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();
@@ -119,6 +119,7 @@ public class Update_Stock_Window extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				boolean error = false,  emptyMoreStock = false, emptyUpdatePNumber = false;
 				int stockID = 0;
 				try {
 					stockID = db.getStockID(stockName);
@@ -131,17 +132,13 @@ public class Update_Stock_Window extends JFrame {
 				int noPreferred = 0;
 				boolean updateNoAvailable = false, updateNoPreferred = false;
 				
-				if(textFieldMoreStock.getText().equals("")) {
-					System.out.println("Empty Available");
-				}
+				if(textFieldMoreStock.getText().equals("")) {emptyMoreStock = true;}
 				else {
 				updateNoAvailable = true;
 				noAvailable = Integer.parseInt(textFieldMoreStock.getText());
 				}
 				
-				if(textFieldUpdatePNumber.getText().equals("")) {
-					System.out.println("Empty Preferred");
-				}
+				if(textFieldUpdatePNumber.getText().equals("")) { emptyUpdatePNumber = true;}
 				else {
 				updateNoPreferred = true;
 				noPreferred = Integer.parseInt(textFieldUpdatePNumber.getText());
@@ -159,6 +156,7 @@ public class Update_Stock_Window extends JFrame {
 				
 				if(updateNoAvailable && updateNoPreferred) {
 					if(noAvailable + currentNoAvailable > noPreferred) {
+						error = true;
 						JOptionPane.showMessageDialog(null,"Number available cannot exceed number preferred","VALUE ERROR",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -170,15 +168,17 @@ public class Update_Stock_Window extends JFrame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						JOptionPane.showMessageDialog(null,"Stock updated succesfully","STOCK UPDATE",
+								JOptionPane.INFORMATION_MESSAGE);
+						//textFieldMoreStock.setText(null);
+						//textFieldUpdatePNumber.setText(null);
 					}
 				}
-				
-				
 				
 				if(updateNoAvailable && !updateNoPreferred) {
 					
 					if(noAvailable + currentNoAvailable> currentNoPreferred) {
-						
+						error = true;
 						JOptionPane.showMessageDialog(null,"Number available cannot exceed number preferred","VALUE ERROR",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -190,13 +190,15 @@ public class Update_Stock_Window extends JFrame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						JOptionPane.showMessageDialog(null,"Stock updated succesfully","STOCK UPDATE",
+								JOptionPane.INFORMATION_MESSAGE);
 					}		
 				}
 				
 				if(!updateNoAvailable && updateNoPreferred) {
 					
 					if(currentNoAvailable > noPreferred) {
-						
+						error = true;
 						JOptionPane.showMessageDialog(null,"Number preferred cannot be less than number available","VALUE ERROR",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -208,23 +210,39 @@ public class Update_Stock_Window extends JFrame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+					JOptionPane.showMessageDialog(null,"Stock updated succesfully","STOCK UPDATE",
+							JOptionPane.INFORMATION_MESSAGE);
 					}		
 				}
-					
-				int newNoAvailable=0;
-				int newNoPreferred=0;
-				try {
-					newNoAvailable = db.getStock(stockID).getNoAvailable();
-					newNoPreferred = db.getStock(stockID).getNoPreferred();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				if(emptyMoreStock && emptyUpdatePNumber) {
+					JOptionPane.showMessageDialog(null,"Please enter at least one value to update","MISSING VALUES",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				try {
-					db.updateNoMissing(stockID, newNoAvailable, newNoPreferred);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				else if(error) {
+					textFieldMoreStock.setText(null);
+					textFieldUpdatePNumber.setText(null);
+				}
+				
+				else {
+					int newNoAvailable= 0;
+					int newNoPreferred= 0;
+					try {
+						newNoAvailable = db.getStock(stockID).getNoAvailable();
+						newNoPreferred = db.getStock(stockID).getNoPreferred();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					try {
+						db.updateNoMissing(stockID, newNoAvailable, newNoPreferred);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					Update_Stock_Window resetFrame = new Update_Stock_Window();
+					resetFrame.run(stockName);
+					dispose();
 				}
 				
 			}
@@ -283,9 +301,6 @@ public class Update_Stock_Window extends JFrame {
 		
 		contentPane.setLayout(gl_contentPane);
 	}
-	
-	
-	
 	
 	public JTable show_stock(Stock stock) throws Exception{
 		String column[]= {"Stock Name","Number available","Number Missing","Preferred Number","Last Updated"};

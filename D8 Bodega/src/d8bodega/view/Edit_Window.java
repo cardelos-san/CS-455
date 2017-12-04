@@ -41,6 +41,7 @@ public class Edit_Window extends JFrame {
 	 * Create the frame.
 	 */
 	public Edit_Window() {
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();

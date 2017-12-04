@@ -4,6 +4,10 @@
 INSERT INTO Users(userId,uName, pWord)
 VALUES(1,"admin", "$2a$12$3TJI70ceIgkjc/KnXQ80LOVzHJb9uCrDADpiAkdECqwOlcoItQgAe");
 
+-- Password in plain text is "brugal"
+INSERT INTO Users(userId,uName, pWord)
+VALUES(2,"employee", "$2a$12$WMZOT5teedE6nQvUD6Q1W.FZdsrcDR7D40.nNKRhyFix8fhK7zd7e");
+
 -- Insert default categories
 Insert Into Category(categoryName,categoryId)
 Values('Produce',1);

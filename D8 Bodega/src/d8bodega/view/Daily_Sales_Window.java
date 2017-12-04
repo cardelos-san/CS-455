@@ -47,6 +47,7 @@ public class Daily_Sales_Window extends JFrame {
 	 */
 	public Daily_Sales_Window() throws Exception {
 		db = new Database();
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();
@@ -89,6 +90,7 @@ public class Daily_Sales_Window extends JFrame {
 					int stockID = 0;
 					int currentNoAvailable=0;
 					int currentNoPreferred=0;
+					int newNoAvailable = 0;
 					try {
 						stockID = db.getStockID(itemName);
 						currentNoAvailable = db.getStock(stockID).getNoAvailable();
@@ -98,32 +100,45 @@ public class Daily_Sales_Window extends JFrame {
 						e.printStackTrace();
 					}
 					
-					int noSold = Integer.parseInt(AmtSoldTextField.getText());
-					
-					if(noSold > currentNoAvailable) {
-						JOptionPane.showMessageDialog(null,"Number sold cannot exceed current number available \n"
-								+ "Current available is: " + currentNoAvailable,"VALUE ERROR",
-								JOptionPane.ERROR_MESSAGE);
+					int noSold = 0;
+					boolean error = false;
+					try {
+						noSold = Integer.parseInt(AmtSoldTextField.getText());
 					}
-					else {
-						try {
-							db.updateNoSold(stockID, noSold);
-							db.updateNoAvailable(stockID, noSold);
-							currentNoAvailable = db.getStock(stockID).getNoAvailable();
-							db.updateNoMissing(stockID, currentNoAvailable, currentNoPreferred);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+					catch(Exception e1){
+						error = true;
+						JOptionPane.showMessageDialog(null,"Please enter a valid number \n","VALUE ERROR",
+								JOptionPane.ERROR_MESSAGE);
+						AmtSoldTextField.setText(null);
+					}
+					
+					if(!error) {
+						if(noSold > currentNoAvailable) {
+							JOptionPane.showMessageDialog(null,"Number sold cannot exceed current number available \n"
+									+ "Current available is: " + currentNoAvailable,"VALUE ERROR",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							try {
+								db.updateNoSold(stockID, noSold);
+								db.updateNoAvailable(stockID, noSold);
+								newNoAvailable = db.getStock(stockID).getNoAvailable();
+								db.updateNoMissing(stockID, newNoAvailable, currentNoPreferred);
+								db.close();
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							JOptionPane.showMessageDialog(null,"Daily sales has been updated\n" + "Previous Number Available: "
+							+ currentNoAvailable + "\n" + "Updated Number Available: " + newNoAvailable ,"DAILY SALES", JOptionPane.INFORMATION_MESSAGE);
+							itemNameTextField.setText(null);
+							AmtSoldTextField.setText(null);
 						}
 						
-						JOptionPane.showMessageDialog(null,"Daily sales has been updated","DAILY SALES",
-								JOptionPane.INFORMATION_MESSAGE);
+						
 					}
-					
-					
 				}
 			}
-			
 			
 		});
 		

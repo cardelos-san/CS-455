@@ -3,13 +3,15 @@ package d8bodega.view;
 
 import d8bodega.database.*;
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -22,9 +24,13 @@ import java.awt.event.ActionEvent;
 
 public class Select_Stock_Window extends JFrame {
 
+	/**
+	 * 
+	 */
 	private JPanel contentPane;
 	private JTextField textField;
 	private Database db;
+	private int itemID;
 
 	public void run() {
 		try {
@@ -45,9 +51,11 @@ public class Select_Stock_Window extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+		setTitle("8 Brothers SuperMaket");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 502);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(51, 153, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
@@ -65,15 +73,30 @@ public class Select_Stock_Window extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			
 				String stockName = textField.getText();
-			    try {
-			    	Update_Stock_Window nextFrame = new Update_Stock_Window();
-			    	nextFrame.run(stockName);
-			    	
+
+				try {
+					itemID = db.getItemID(stockName);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			   dispose();
+				
+				if(itemID == 0) {
+					JOptionPane.showMessageDialog(null,"Item cannot be found","ITEM DOES NOT EXIST",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
+				else {
+				    try {
+				    	Update_Stock_Window nextFrame = new Update_Stock_Window();
+				    	nextFrame.run(stockName);
+				    	
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				dispose();
+				}
 			}
 		});
 		
